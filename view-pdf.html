@@ -3,29 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View PDF</title>
+    <title>Edit PDF</title>
+    <style>
+        #editArea {
+            display: none; /* Hidden by default */
+            width: 100%;
+            height: 90vh;
+        }
+        #pdfViewer {
+            width: 100%;
+            height: 90vh;
+            display: block;
+        }
+        button {
+            margin: 10px;
+        }
+    </style>
 </head>
 <body>
     <h1>PDF Viewer</h1>
-    <iframe id="pdfViewer" style="width: 100%; height: 90vh;" frameborder="0"></iframe>
     
-    <!-- New Save to Notes Button -->
+    <!-- PDF Viewer -->
+    <iframe id="pdfViewer" frameborder="0"></iframe>
+
+    <!-- Editable Text Area for Editing PDF -->
+    <textarea id="editArea"></textarea>
+
+    <!-- Action Buttons -->
+    <button onclick="toggleEditMode()">Edit PDF</button>
+    <button onclick="saveEditedPDF()">Save Edited PDF</button>
     <button onclick="savePDFToNotes()">Save PDF to Notes</button>
-    
     <button onclick="goBack()">Back to Notepad</button>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.7.570/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
     <script>
+        const pdfViewer = document.getElementById('pdfViewer');
+        const editArea = document.getElementById('editArea');
+        let isEditMode = false;
+        let extractedText = '';
+
         function goBack() {
             window.history.back();
         }
 
+        // Load PDF from localStorage
         function loadPDF() {
             const pdfBase64 = localStorage.getItem('pdfContent');
             if (pdfBase64) {
-                document.getElementById('pdfViewer').src = pdfBase64;
+                pdfViewer.src = pdfBase64;
             } else {
                 alert("No PDF content available!");
             }
+        }
+
+        // Toggle between view mode and edit mode
+        function toggleEditMode() {
+            if (!isEditMode) {
+                extractTextFromPDF();  // Extract text and enable editing mode
+            } else {
+                // Exit edit mode, show the PDF viewer again
+                editArea.style.display = 'none';
+                pdfViewer.style.display = 'block';
+                isEditMode = false;
+            }
+        }
+
+        // Extract text from the PDF using pdf.js
+        async function extractTextFromPDF() {
+            const pdfBase64 = localStorage.getItem('pdfContent');
+            if (!pdfBase64) {
+                alert("No PDF content available to edit!");
+                return;
+            }
+
+            const pdfData = atob(pdfBase64.split(',')[1]);  // Remove base64 header
+            const loadingTask = pdfjsLib.getDocument({ data: pdfData });
+
+            try {
+                const pdf = await loadingTask.promise;
+                extractedText = '';
+                
+                for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+                    const page = await pdf.getPage(pageNum);
+                    const textContent = await page.getTextContent();
+                    
+                    // Extract and concatenate the text from all pages
+                    const pageText = textContent.items.map(item => item.str).join(' ');
+                    extractedText += pageText + '\n';
+                }
+
+                // Show the extracted text in the editable area
+                editArea.value = extractedText;
+                editArea.style.display = 'block';
+                pdfViewer.style.display = 'none';  // Hide the PDF viewer while editing
+                isEditMode = true;
+            } catch (error) {
+                console.error('Error extracting text from PDF:', error);
+                alert('Unable to extract text from PDF for editing.');
+            }
+        }
+
+        // Save the edited text as a new PDF
+        function saveEditedPDF() {
+            if (!isEditMode) {
+                alert("You need to be in edit mode to save changes!");
+                return;
+            }
+
+            const editedText = editArea.value;
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Split the edited text into multiple lines and add to PDF
+            const lines = doc.splitTextToSize(editedText, 180);
+            doc.text(lines, 10, 10);
+
+            const updatedPdfBase64 = doc.output('datauristring');  // Get the new base64 PDF
+            localStorage.setItem('pdfContent', updatedPdfBase64);  // Store the new PDF in localStorage
+
+            // Update the saved notes
+            const notes = JSON.parse(localStorage.getItem('notes')) || [];
+            const title = prompt("Enter a title for this edited PDF:");
+            const newNote = { id: Date.now(), title, content: updatedPdfBase64, type: 'pdf' };
+            notes.push(newNote);
+            localStorage.setItem('notes', JSON.stringify(notes));
+
+            alert("Edited PDF saved successfully!");
+            toggleEditMode();  // Exit edit mode after saving
         }
 
         // Save the PDF to the user's notes (Bookshelf)
