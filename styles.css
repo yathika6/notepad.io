@@ -1,0 +1,295 @@
+/* styles.css */
+body {
+  font-family: 'Courier New', Courier, monospace;
+  margin: 0;
+  background-color: #7d5a50; /* Wooden background color */
+  display: flex;
+  background-image: url('https://cdn.pixabay.com/photo/2017/11/04/21/09/textile-2918844_1280.jpg');
+}
+
+.container {
+  display: flex;
+  width: 100%;
+}
+
+
+
+.bookshelf h2 {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.bookshelf {
+  width: 200px; /* Initial width */
+  background-image: url('https://cdn.pixabay.com/photo/2017/11/04/21/09/textile-2918844_1280.jpg'); /* Wooden texture */
+  padding: 20px;
+  color: #6d4c41;
+  height: 100vh;
+  box-shadow: 5px 0 10px rgba(0, 0, 0, 0.2);
+  transition: width 0.3s; /* Smooth transition */
+  overflow: hidden; /* Hide overflowing content */
+  display: flex; /* Use flexbox */
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Center align items horizontally */
+  background: url(https://i.pinimg.com/control/564x/48/17/f6/4817f68f16111e1fa5dbb7f25298cfd6.jpg); /* Leather color gradient */
+  /* Darker border for depth */
+  border-right:2px solid #805b3b ;
+  border-radius: 0px; /* Rounded corners */
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3), 
+              -5px -5px 10px rgba(255, 255, 255, 0.5); /* Shadow for 3D effect */
+  padding: 10px 20px; /* Padding for the button */
+  cursor: pointer; /* Pointer cursor on hover */
+  text-align: center; /* Center the text */
+  font-family: 'Times New Roman', Times, serif; /* Typewriter font */
+  color: #6d4c41; /* White text */
+  position: relative; /* Positioning for the pseudo-element */
+  transition: transform 0.2s; /* Animation for hover effect */
+  
+}
+
+#bookshelfTitle {
+  writing-mode: vertical-rl; /* Rotate the text vertically */
+  transform: rotate(180deg); /* Correct rotation */
+  margin: 0;
+  transition: transform 0.3s; /* Add transition for the transformation */
+  background-color: #8B5A2B; /* Brown leather-like color */
+  border: 2px solid #805b3b; /* Darker border for a leather effect */
+  border-radius: 0px; /* Rounded corners for a badge effect */
+  padding-top: 90px;
+  padding: 65px 10px; /* Spacing around the text */
+  font-family: 'Georgia', serif; /* A font that fits a leather style */
+  color: #FFF; /* White text for contrast */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Add a shadow for depth */
+  display: block; /* Keep the badge to fit around the text */
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px; /* Adjust size to fit the style */
+}
+
+#bookshelfTitle.closed {
+  padding: 5px 10px; /* Reduced padding when closed */
+  font-size: 14px; /* Optionally reduce the font size when closed */
+}
+
+#toggleButton {
+  margin: 10px 0; /* Add some spacing above and below the button */
+  padding: 10px; /* Add some padding for a better look */
+  cursor: pointer; /* Change cursor to pointer */
+  background-color: #3e2723; /* Button background color */
+  color: #fff; /* Button text color */
+  border: none; /* Remove border */
+  border-radius: 5px; /* Rounded corners */
+  transition: background-color 0.3s; /* Smooth background color change */
+}
+#toggleButton:hover {
+  background-color: #6d4c41; /* Change color on hover */
+}
+
+#savedNotesList {
+  list-style: none;
+  padding: 0;
+  display: block;
+  transition: opacity 0.3s; /* Add transition for visibility */
+}
+
+#savedNotesList.hidden {
+  display: none; /* Completely hide when the bookshelf is collapsed */
+  opacity: 0; /* Fade out */
+}
+
+#savedNotesList.visible {
+  display: block; /* Show when expanded */
+  opacity: 1; /* Fade in */
+}
+#savedNotesList li {
+  background-color: #6d4c41; /* Leather color */
+  margin: 10px 0;
+  padding: 15px;
+  color: white;
+  cursor: pointer;
+  font-family: 'Courier New', Courier, monospace;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#savedNotesList li:hover {
+  background-color: #5d4037; /* Darker leather on hover */
+}
+
+.delete-note {
+  color: #ff5252; /* Red color for delete button */
+  cursor: pointer;
+}
+
+.notepad-container {
+  width: 600%;
+  padding: 20px;
+  border-radius: 15px;
+  background: #fdf4e3; /* Light background */
+  margin: 20px;
+  background-image: url('https://www.transparenttextures.com/patterns/french-stucco.png');
+}
+
+.notepad {
+  width: 95%;
+  height: 70vh; /* Adjust height as necessary */
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 1.6;
+  outline: none;
+  padding: 20px;
+  border: 1px solid #b2a293; /* Border color */
+  margin-top: 10px;
+  overflow-y: auto;
+  font-family: 'Courier New', Courier, monospace;
+  color: #785e59; /* Text color */
+  background-image: url('https://i.pinimg.com/564x/2a/90/2f/2a902f3c95fc5602d96c7d7c1e43ba1b.jpg'); /* Old burnt paper background */
+  background-blend-mode: c;
+  background-size: cover; /* Cover the entire area */
+  background-position: center; /* Center the background */
+  box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px; /* Rounded corners */
+  color: #6b5552; /* Text color */
+}
+
+
+.sharath {
+  background: url('https://i.pinimg.com/564x/b8/a4/22/b8a422fa661d4737541d7a634ce28286.jpg'); /* Leather texture */
+  border: 2px solid #805b3b; /* Darker border for depth */
+  border-radius: 12px; /* Rounded corners */
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3), 
+              -5px -5px 10px rgba(255, 255, 255, 0.5); /* Shadow for 3D effect */
+  padding: 10px 20px; /* Padding for the button */
+  cursor: pointer; /* Pointer cursor on hover */
+  text-align: center; /* Center the text */
+  font-family: 'Courier New', Courier, monospace; /* Typewriter font */
+  color: #ffffff; /* White text */
+  position: relative; /* Positioning for the pseudo-element */
+  transition: transform 0.2s; /* Animation for hover effect */
+}
+
+/* Embroidered text effect */
+.sharath h4 {
+  margin: 0;
+  font-size: 16px; /* Adjust size as needed */
+  color: #ffffff; /* Embroidery thread color */
+ /* Embroidery looks better with bolder text */
+  text-shadow: 
+    1px 1px 0 #5a3d2b,    /* Darker shadow to create depth */
+      Light shadow to mimic thread highlights
+    2px 2px 1px #3e2723,  /* Slightly larger shadow for texture */
+    -2px -2px 1px #a67c52, /* Highlight for stitched thread look */
+    0px 1px 0px #5a3d2b,  /* Additional subtle depth */
+    1px 0px 0px #5a3d2b;  /* Another thread depth effect */
+}
+
+/* Lifted effect on hover */
+.sharath:hover {
+  transform: translateY(-2px); /* Slight lift on hover */
+  box-shadow: 7px 7px 15px rgba(0, 0, 0, 0.3), 
+              -7px -7px 15px rgba(255, 255, 255, 0.5); /* Enhanced shadow on hover */
+}
+
+
+
+
+
+.sharath::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 12px; /* Match border radius */
+  background: transparent;
+  border: 2px dashed #ffffff; /* Dashed border for stitching */
+  pointer-events: none; /* Prevent interaction */
+  opacity: 0.5; /* Slightly transparent stitching */
+}
+
+
+.note-title{
+  color: #6b5552;
+  font-family:'Times New Roman', Times, serif ;
+}
+
+.controls button {
+  background-color: #f0f0f0; /* Light background for the button */
+  border: 2px solid #888; /* Border to resemble stitching */
+  border-radius: 40%; /* Make the button round */
+  width: 50px; /* Control the size of the button */
+  height: 48px; /* Control the size of the button */
+  box-shadow: inset 0 0 0 3px #fff, /* Inner shadow for depth */
+              inset 0 0 10px 2px #aaa, /* Slight shadow for stitched effect */
+              0 4px 6px rgba(0, 0, 0, 0.3); /* Drop shadow for lift effect */
+  position: relative;
+  text-align: center;
+  cursor: pointer;
+  font-family: "Courier New", Courier, monospace; /* Monospaced font for text */
+  font-size: 12px; /* Text size */
+  color: #9f7135;
+  font-weight: bold;
+  outline: none;
+}
+
+
+.controls button:hover {
+  background-color:#dcc4a9; /* Slightly change background on hover */
+  box-shadow: inset 0 0 0 3px #eee, inset 0 0 12px 3px #bbb, 0 5px 8px rgba(0, 0, 0, 0.4);
+}
+
+.controls button:active {
+  box-shadow: inset 0 0 0 4px #ddd, inset 0 0 8px 4px #999, 0 2px 4px rgba(0, 0, 0, 0.2);
+  background-color: #d0d0d0;
+  transform: translateY(2px); /* Push the button down when clicked */
+}
+
+.controls .file-input-button {
+  background-color: #f0f0f0; /* Light background for the button */
+  border: 2px solid #888; /* Border to resemble stitching */
+  border-radius: 40%; /* Make the button round */
+  width: 50px; /* Control the size of the button */
+  height: 47px; /* Control the size of the button */
+  box-shadow: inset 0 0 0 3px #fff, /* Inner shadow for depth */
+              inset 0 0 10px 2px #aaa, /* Slight shadow for stitched effect */
+              0 4px 6px rgba(0, 0, 0, 0.3); /* Drop shadow for lift effect */
+  position: relative;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-family: "Courier New", Courier, monospace; /* Monospaced font for text */
+  font-size: 11px; /* Text size */
+  font-weight: bold;
+  color:#9f7135;
+  outline: none;
+  text-decoration: none;
+}
+
+
+
+.controls .file-input-button:hover {
+  background-color: #e0e0e0; /* Slightly change background on hover */
+  box-shadow: inset 0 0 0 3px #eee, inset 0 0 12px 3px #bbb, 0 5px 8px rgba(0, 0, 0, 0.4);
+}
+
+.controls .file-input-button:active {
+  box-shadow: inset 0 0 0 4px #ddd, inset 0 0 8px 4px #999, 0 2px 4px rgba(0, 0, 0, 0.2);
+  background-color: #d0d0d0;
+  transform: translateY(2px); /* Push the button down when clicked */
+}
+
+.word {
+  text-align: right;
+  margin-right: 20px; /* Adjust this to move further to the right if needed */
+  font-size: 14px; /* Adjust font size if needed */
+  color: #000; /* Adjust text color */
+}
+
+

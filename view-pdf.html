@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View PDF</title>
+</head>
+<body>
+    <h1>PDF Viewer</h1>
+    <iframe id="pdfViewer" style="width: 100%; height: 90vh;" frameborder="0"></iframe>
+    
+    <!-- New Save to Notes Button -->
+    <button onclick="savePDFToNotes()">Save PDF to Notes</button>
+    
+    <button onclick="goBack()">Back to Notepad</button>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+
+        function loadPDF() {
+            const pdfBase64 = localStorage.getItem('pdfContent');
+            if (pdfBase64) {
+                document.getElementById('pdfViewer').src = pdfBase64;
+            } else {
+                alert("No PDF content available!");
+            }
+        }
+
+        // Save the PDF to the user's notes (Bookshelf)
+        function savePDFToNotes() {
+            const pdfBase64 = localStorage.getItem('pdfContent');
+            if (pdfBase64) {
+                const title = prompt("Enter a title for this PDF:"); // Allow user to provide a title
+                if (title) {
+                    const notes = JSON.parse(localStorage.getItem('notes')) || [];
+                    const newNote = { id: Date.now(), title, content: pdfBase64, type: 'pdf' };
+                    notes.push(newNote);  // Add the PDF to notes
+                    localStorage.setItem('notes', JSON.stringify(notes));
+                    alert("PDF saved to your notes!");
+                } else {
+                    alert("PDF not saved! Please provide a title.");
+                }
+            } else {
+                alert("No PDF content available to save!");
+            }
+        }
+
+        window.onload = loadPDF; // Load the PDF when the page is ready
+    </script>
+</body>
+</html>

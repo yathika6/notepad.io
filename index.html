@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typewriter Notepad</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="bookshelf" id="bookshelf">
+            <h2 id="bookshelfTitle">Bookshelf</h2>
+            <button id="toggleButton" onclick="toggleBookshelf()" aria-label="Toggle Bookshelf">▶</button>
+            <ul id="savedNotesList" class="hidden"></ul>
+        </div>
+        
+        <div class="notepad-container">
+            <div class="header">
+                <button class="sharath" onclick="toggleTheme()" aria-label="Toggle Theme"><h4>Sharath's Typewriter</h4></button>
+                <h1 contenteditable="true" class="note-title" id="noteTitle">TITLE</h1>
+                <div class="controls">
+                    <button onclick="saveNote()" aria-label="Save Note">Save</button>
+                    <button onclick="saveAsText()" aria-label="Save as Text File">txt</button>
+                    <button onclick="saveAsPDF()" aria-label="Save as PDF">pdf</button>
+                    <button onclick="clearNote()" aria-label="Clear Notepad">Clear</button>
+                    <button id="toggleReadOnly" onclick="toggleReadOnly()" aria-label="Toggle Read-Only">Read</button>
+                    <label for="fileInput" class="file-input-button" aria-label="Upload File">Upload</label>
+                    <input type="file" id="fileInput" onchange="openFile()" accept=".txt, .pdf" style="display:none;">
+                </div>
+                <div class="word"> 
+                    <span id="wordCount">Words: 0</span>
+                    <span id="charCount">Characters: 0</span>
+                </div>
+            </div>
+            <div class="notepad" contenteditable="true" id="notepad"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
