@@ -236,3 +236,59 @@ function toggleBookshelf() {
         bookshelfTitle.style.transform = 'rotate(180deg)';
     }
 }
+
+async function loadPDFForEditing(id) {
+    const note = notes.find(note => note.id === id);
+    if (note && note.type === 'pdf') {
+        // Use pdf.js to extract the text from the PDF content
+        const pdfData = atob(note.content.split(',')[1]);  // Remove base64 header
+        const loadingTask = pdfjsLib.getDocument({ data: pdfData });
+        
+        loadingTask.promise.then(async function(pdf) {
+            let fullText = '';
+            for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+                const page = await pdf.getPage(pageNum);
+                const textContent = await page.getTextContent();
+                
+                // Concatenate all text items into one string
+                const pageText = textContent.items.map(item => item.str).join(' ');
+                fullText += pageText + '\n';  // Add newline for each page
+            }
+            
+            // Load the extracted text into the notepad
+            document.getElementById('noteTitle').innerText = note.title;
+            document.getElementById('notepad').innerText = fullText;
+            currentNoteId = id;
+            updateCounts();
+        }).catch(function(error) {
+            console.error('Error extracting text from PDF:', error);
+            alert('Unable to load PDF for editing.');
+        });
+    }
+}
+
+function saveEditedPDF() {
+    const { jsPDF } = window.jspdf;
+    let doc = new jsPDF();
+  
+    let text = document.getElementById('notepad').innerText;
+    let title = document.getElementById('noteTitle').innerText;
+
+    doc.setFont("Courier", "normal");
+    doc.setFontSize(12);
+  
+    doc.text(title, 10, 10);
+    let lines = doc.splitTextToSize(text, 180);
+    doc.text(lines, 10, 20);
+
+    const updatedPdfBase64 = doc.output('datauristring');  // Get the new base64 PDF
+    localStorage.setItem('pdfContent', updatedPdfBase64);  // Store the new PDF
+
+    // Update the note in localStorage
+    notes = notes.map(note => 
+        note.id === currentNoteId ? { ...note, content: updatedPdfBase64, type: 'pdf' } : note
+    );
+    localStorage.setItem('notes', JSON.stringify(notes));
+
+    alert('PDF updated successfully!');
+}
